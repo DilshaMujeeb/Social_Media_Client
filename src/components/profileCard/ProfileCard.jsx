@@ -14,6 +14,8 @@ const ProfileCard = ({ location }) => {
   const posts = useSelector((state) => state.postReducer.posts)
   console.log(posts,"postss");
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER
+  console.log("REACT_APP_PUBLIC_FOLDER:", process.env.REACT_APP_PUBLIC_FOLDER);
+
   
   const [showFollowing, setShowFollowing] = useState(false);
   const [listFollowing, setListFollowing] = useState([])

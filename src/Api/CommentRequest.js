@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://reelking-server.onrender.com" });
 export const createComment = (postId, comment, userId) =>
     API.post(`/comment/${postId}`, { content: comment, userId: userId, postId: postId });
   
