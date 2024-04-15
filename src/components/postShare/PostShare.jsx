@@ -10,6 +10,7 @@ import { UilTimes } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadImage } from "../../Actions/uploadAction";
 import { uploadPost } from "../../Actions/uploadAction";
+import config from "../../config";
 const PostShare = () => {
   const loading = useSelector((state)=>state.postReducer.uploading)
   const [image, setImage] = useState(null);
@@ -21,7 +22,8 @@ const PostShare = () => {
   // console.log(user, "user in authreducer after postshare");
   // console.log(user._id)
   const dispatch = useDispatch()
-    const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+  const serverPublic = config.publicFolder;
+    // const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];

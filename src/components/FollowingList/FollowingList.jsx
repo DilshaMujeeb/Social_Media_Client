@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./FollowingList.css"; // Import CSS file for styling
 import { getUser } from "../../Api/userRequest";
-
+import config from "../../config";
 const FollowingList = ({ followingList, followerList, onClose }) => {
-    console.log(followingList, "followingList");
-  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+  console.log(followingList, "followingList");
+  const serverPublic = config.publicFolder;
+  // const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
   const [userFollowing, setUserFollowing] = useState([]);
   const [userFollowers, setUserFollowers] = useState([]);
 

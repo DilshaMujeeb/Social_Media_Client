@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import Cover from '../../img/cover.jpg'
 import Profile from '../../img/profileImg.jpg'
+import config from '../../config'
 import './ProfileCard.css'
 import { useSelector } from "react-redux"
 import {Link} from 'react-router-dom'
@@ -12,9 +13,10 @@ const ProfileCard = ({ location }) => {
   
   const { user } = useSelector((state) => state.authReducer.authData)
   const posts = useSelector((state) => state.postReducer.posts)
-  console.log(posts,"postss");
-  const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER
-  console.log("REACT_APP_PUBLIC_FOLDER:", process.env.REACT_APP_PUBLIC_FOLDER);
+  console.log(posts, "postss");
+  const serverPublic = config.publicFolder;
+  // const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER
+  console.log("REACT_APP_PUBLIC_FOLDER:", serverPublic);
 
   
   const [showFollowing, setShowFollowing] = useState(false);
