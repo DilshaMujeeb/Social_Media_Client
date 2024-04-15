@@ -3,4 +3,9 @@
   display: grid;
   grid-template-columns: 18rem auto 20rem;
   gap: 1rem;
+  
+}
+.ProfileSideContainer {
+  height: calc(100vh - 60px); /* Adjust the height as needed */
+  overflow-y: auto; /* Add a scrollbar for vertical scrolling */
 }

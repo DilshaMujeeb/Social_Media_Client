@@ -21,3 +21,7 @@ export const getAllusers = () => API.get(`/user`)
 export const followUser = (id, data) => API.put(`/user/${id}/follow`, data)
 
 export const unFollowUser = (id, data) => API.put(`/user/${id}/unfollow`, data);
+
+export const getFollowersList = (id) => API.get(`/user/${id}/getFollower`);
+
+export const getFollowingList = (id) => API.get(`/user/${id}/getFollowing`);

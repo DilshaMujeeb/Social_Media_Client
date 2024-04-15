@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getMessages, addMessage } from "../../Api/MessageRequests";
 import { getUser } from "../../Api/userRequest";
 import "./ChatBox.css";
@@ -9,7 +9,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
+  const scroll =useRef()
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
@@ -39,20 +39,24 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 
   // Fetching data for header
   useEffect(() => {
-    const userId = chat?.members?.find((id) => id !== currentUserId);
-    console.log("userId", userId);
-    console.log("current", currentUserId);
-    const getUserData = async () => {
-      try {
-        const { data } = await getUser(userId);
-        setUserData(data);
-      } catch (error) {
-        console.log(error);
+    const fetchUserData = async () => {
+      if (chat && chat.members) {
+        const userId = chat.members.find((id) => id !== currentUserId);
+        console.log("userId", userId);
+        console.log("current", currentUserId);
+
+        try {
+          const { data } = await getUser(userId);
+          setUserData(data);
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
 
-    if (chat !== null) getUserData();
+    fetchUserData();
   }, [chat, currentUserId]);
+
 
   // Fetch messages
   useEffect(() => {
@@ -69,12 +73,17 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
   }, [chat]);
 
   // Receive Message from parent component
-  // useEffect(() => {
-  //   console.log("Message Arrived: ", receiveMessage);
-  //   if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
-  //     setMessages([...messages, receiveMessage]);
-  //   }
-  // }, [receiveMessage]);
+  useEffect(() => {
+    console.log("Message Arrived: ", receiveMessage);
+    if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
+      setMessages([...messages, receiveMessage]);
+    }
+  }, [receiveMessage]);
+
+  // usref to scroll to the last message
+  useEffect(() => {
+    scroll.current?.scrollIntoView({behavior:"smooth"})
+  },[messages])
 
   return (
     <>
@@ -83,27 +92,29 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
           <>
             {/* Chat header */}
             <div className="chat-header">
-              <div className="follower">
-                <div>
-                  <img
-                    src={
-                      userData?.profilePicture
-                        ? process.env.REACT_APP_PUBLIC_FOLDER +
-                          userData.profilePicture
-                        : process.env.REACT_APP_PUBLIC_FOLDER +
-                          "defaultProfile.png"
-                    }
-                    alt="Profile"
-                    className="followerImage"
-                    style={{ width: "50px", height: "50px" }}
-                  />
-                  <div className="name" style={{ fontSize: "0.9rem" }}>
-                    <span>
-                      {userData?.firstname} {userData?.lastname}
-                    </span>
+              {userData && (
+                <div className="follower">
+                  <div>
+                    <img
+                      src={
+                        userData?.profilePicture
+                          ? process.env.REACT_APP_PUBLIC_FOLDER +
+                            userData.profilePicture
+                          : process.env.REACT_APP_PUBLIC_FOLDER +
+                            "defaultProfile.png"
+                      }
+                      alt="Profile"
+                      className="followerImage"
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                    <div className="name" style={{ fontSize: "0.9rem" }}>
+                      <span>
+                        {userData?.firstname} {userData?.lastname}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               <hr
                 style={{
                   width: "95%",
@@ -122,6 +133,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
                       ? "message own"
                       : "message"
                   }
+                  ref={scroll}
                 >
                   <span>{message.text}</span>{" "}
                   <span>{format(message.createdAt)}</span>
@@ -144,6 +156,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       </div>
     </>
   );
+
 };
 
 export default ChatBox;

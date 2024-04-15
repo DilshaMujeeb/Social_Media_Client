@@ -5,12 +5,15 @@ import PostSide from '../../components/postSide/PostSide';
 import RightSide from '../../components/RightSide/RightSide';
 const Home = () => {
   return (
-    <div className='Home'>
-          <ProfileSide/>
-          <PostSide/>
-          <RightSide/>
+    <div className="Home">
+      <div className="ProfileSideContainer">
+        <ProfileSide />
+      </div>
+
+      <PostSide />
+      <RightSide />
     </div>
-  )
+  );
 } 
 
 export default Home

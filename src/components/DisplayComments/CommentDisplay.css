@@ -1,0 +1,21 @@
+/* CommentDisplay.css */
+
+.CommentsDisplay {
+  width: 100%;
+  max-width: 600px; /* Adjust according to your layout */
+  margin: 0 auto; /* Center the comments display */
+}
+
+.comment {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.comment-content {
+  font-size: 16px;
+  color: #333;
+}

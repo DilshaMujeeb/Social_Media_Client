@@ -5,12 +5,14 @@ import FollowersCard from '../followersCard/FollowersCard'
 
 const ProfileLeft = () => {
   return (
-    <div className='ProfileSide'>
-          <LogoSearch />
-          <Infocard />
-          <FollowersCard/>
+    <div className="ProfileSideContainer">
+      <div className="ProfileSide">
+        <LogoSearch />
+        <Infocard />
+        <FollowersCard />
+      </div>
     </div>
-  )
+  );
 }
 
 export default ProfileLeft

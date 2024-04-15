@@ -6,16 +6,18 @@ import PostSide from '../../components/postSide/PostSide'
 import RightSide from '../../components/RightSide/RightSide'
 const Profile = () => {
   return (
-    <div className='Profile'>
-          <ProfileLeft />
-          <div className="Profile-center">
-              <ProfileCard location="profilePage"/>
-              <PostSide />
-          </div>
-              <RightSide/>
+    <div className="Profile">
+      <ProfileLeft />
+      <div className="ProfileSideContainer">
+        <div className="Profile-center">
+          <ProfileCard location="profilePage" />
+          <PostSide />
+        </div>
+      </div>
 
+      <RightSide />
     </div>
-  )
+  );
 }
 
 export default Profile

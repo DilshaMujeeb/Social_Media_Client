@@ -1,24 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "../../Api/userRequest";
 
-const Conversation = ({ data, currentUserId }) => {
+const Conversation = ({ data, currentUserId,online}) => {
     // userdata is the data of the user for whom i send msg...
     const [userData, setUserData] = useState(null)
     useEffect(() => {
+      if (data && data.members) {
         // inside the chat model we have members array which has 2 user id,, 1st is my id and other is the person i am chatting
-        const userId= data.members.find((id)=>id!==currentUserId)
-        const getUserData = async() => {
-            const { data } = await getUser(userId);
-            setUserData(data)
-            console.log("useraData",data);
+        const userId = data.members.find((id) => id !== currentUserId);
+        if (userId) {
+          const getUserData = async () => {
+            try {
+              const { data } = await getUser(userId);
+              setUserData(data);
+              console.log("userData", data);
+            } catch (error) {
+              console.error("Error fetching user data:", error);
+            }
+          };
+          getUserData();
         }
-        getUserData()
-    },[])
+      } else {
+        const fetchData = async () => {
+          try {
+            const userDataResponse = await getUser(data);
+            setUserData(userDataResponse.data);
+          } catch (error) {
+            console.error("Error fetching user data:", error);
+          }
+        }
+        fetchData()
+      }
+    }, [data, currentUserId]);
+
     return (
       <>
         <div className="follower conversation">
           <div>
-            <div className="online-dot"></div>
+            {online && <div className="online-dot"></div>}
             <img
               src={
                 userData?.profilePicture
@@ -34,7 +53,7 @@ const Conversation = ({ data, currentUserId }) => {
               <span>
                 {userData?.firstname} {userData?.lastname}
               </span>
-              <span>Online</span>
+              <span>{online ? "online" : "offline"}</span>
             </div>
           </div>
         </div>

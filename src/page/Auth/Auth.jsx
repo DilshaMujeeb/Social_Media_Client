@@ -141,7 +141,7 @@ const dispatch = useDispatch();
           </button>
         </form>
       </div>
-      ;
+      
     </div>
   );
 }

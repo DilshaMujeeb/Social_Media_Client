@@ -6,7 +6,10 @@ import Comment from '../../img/comment.png';
 import { UilSetting } from '@iconscout/react-unicons';
 import TrendCard from '../TrendCard/TrendCard';
 import ShareModal from '../ShareModal/ShareModal';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import Lottie from "lottie-react-web";
+import animationChatData from '../../chatAnimation/chat.json'; // Import your Lottie animation JSON file
+
 const RightSide = () => {
   const [modalOpened, setModalOpened] = useState(false)
   return (
@@ -18,7 +21,17 @@ const RightSide = () => {
         <UilSetting />
         <img src={Noti} alt="" />
         <Link to="../chat">
-          <img src={Comment} alt="" />
+          <Lottie
+            options={{
+              animationData: animationChatData,
+              loop: true, // Set loop to true for continuous playback
+              autoplay: true, // Autoplay the animation
+            }}
+            width={"4rem"} // Set width and height
+            height={"4rem"}
+            
+          />
+          {/* <img src={Comment} alt="" /> */}
         </Link>
       </div>
       <TrendCard />

@@ -1,0 +1,30 @@
+/* CommentInputField.css */
+
+.CommentInputForm {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.CommentInputForm input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.CommentInputForm button {
+  padding: 8px 16px;
+  
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
