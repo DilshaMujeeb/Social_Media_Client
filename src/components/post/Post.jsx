@@ -11,7 +11,7 @@ import CommentInputField from "../Comment/Comment";
 import CommentsDisplay from "../DisplayComments/CommentsDisplay";
 // data is taken from the reducer but action to like and unlike post has to be added
 const Post = ({ data }) => {
-  console.log("dataaaa",data);
+  // console.log("dataaaa",data);
   const { user } = useSelector((state) => state.authReducer.authData);
   const [liked, setLiked] = useState(data?.likes?.includes(user._id));
   const [likes, setLikes] = useState(data?.likes?.length);
@@ -22,7 +22,7 @@ const Post = ({ data }) => {
     const fetchUsername = async () => {
       try {
         const usernameData = await getUser(data.userId);
-        console.log(usernameData.data.firstname,"userbjerbw");
+        // console.log(usernameData.data.firstname,"userbjerbw");
         setUsername(usernameData.data.firstname);
       } catch (error) {
         console.log(error);
@@ -50,7 +50,7 @@ const Post = ({ data }) => {
 
 const handleCommentSubmit = (commentText) => {
   // Logic to submit the comment to the backend
-  console.log("Submitted comment:", commentText);
+  // console.log("Submitted comment:", commentText);
 };
 
 

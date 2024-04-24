@@ -12,30 +12,32 @@ import { uploadImage } from "../../Actions/uploadAction";
 import { uploadPost } from "../../Actions/uploadAction";
 import config from "../../config";
 const PostShare = () => {
-  const loading = useSelector((state)=>state.postReducer.uploading)
+  const loading = useSelector((state) => state.postReducer.uploading);
   const [image, setImage] = useState(null);
+  const cloudName = "dnzxhje5m";
+  const preset_key = "reelking";
   // useRef is used to manipulate the reactDOM for changing a value which is stpred in the DOM
   const imgRef = useRef();
   const descRef = useRef();
   // name export is used to get the utilities from a module like from user we need user._id
-  const { user } = useSelector((state) => state.authReducer.authData)
+  const { user } = useSelector((state) => state.authReducer.authData);
   // console.log(user, "user in authreducer after postshare");
   // console.log(user._id)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const serverPublic = config.publicFolder;
-    // const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+  // const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-      setImage(img)
+      setImage(img);
     }
   };
   const reset = () => {
     setImage(null);
-    descRef.current.value=""
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault()
+    descRef.current.value = "";
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const newPost = {
       userId: user._id,
 
@@ -44,27 +46,29 @@ const PostShare = () => {
     // image is stored in the server local storage.. simply fetching by using the image name
     if (image) {
       const data = new FormData();
-      const filename = Date.now() + image.name
-      data.append("name", filename)
-      data.append("file", image)
-      newPost.image = filename
-      console.log("new post..........",newPost)
+      const filename = Date.now() + image.name;
+      data.append("name", filename);
+      data.append("file", image);
+      data.append("upload_preset", preset_key);
+
       try {
-        dispatch(uploadImage(data));
+        const postResponse = await dispatch(uploadImage(data, cloudName));
+        newPost.image = postResponse.url;
+        console.log("new post..........", newPost);
       } catch (error) {
         console.log(error);
       }
     }
-    dispatch(uploadPost(newPost));
-    reset()
-  }
+    await dispatch(uploadPost(newPost));
+    reset();
+  };
 
   return (
     <div className="PostShare">
       <img
         src={
           user.profilePicture
-            ? serverPublic + user.profilePicture
+            ? user.profilePicture
             : serverPublic + "defaultProfile.png"
         }
         alt=""

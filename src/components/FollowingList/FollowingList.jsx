@@ -72,7 +72,7 @@ const FollowingList = ({ followingList, followerList, onClose }) => {
                         <img
                           src={
                             user.profilePicture
-                              ? serverPublic + user.profilePicture
+                              ? user.profilePicture
                               : serverPublic + "defaultProfile.png"
                           }
                           alt={`${user.firstname} ${user.lastname}`}

@@ -31,7 +31,7 @@ const User = ({ person }) => {
           <img className='followerImg'
             src={
               person.profilePicture
-                ? serverPublic + person.profilePicture
+                ? person.profilePicture
                 : serverPublic + "defaultProfile.png"
             }
             alt=""

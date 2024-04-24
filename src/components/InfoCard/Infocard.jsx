@@ -12,10 +12,9 @@ const Infocard = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const profileUserId = params.id;
-  console.log("profileuserid", profileUserId);
   const [profileUser, setProfileUser] = useState(null); // Initialize profileUser to null
   const { user } = useSelector((state) => state.authReducer.authData);
-  console.log(user);
+  
   const handlelLogout = () => {
     dispatch(logout());
   };
@@ -24,11 +23,11 @@ const Infocard = () => {
     const fetchProfileUser = async () => {
       if (profileUserId === user._id) {
         setProfileUser(user);
-        console.log("profile user ===user", user);
+      
       } else {
         const profileUserInfo = await UserApi.getUser(profileUserId);
         setProfileUser(profileUserInfo);
-        console.log("profile user", profileUser);
+        
       }
     };
     fetchProfileUser();

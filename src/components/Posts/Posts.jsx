@@ -9,13 +9,13 @@ const Posts = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.authReducer.authData);
   let { posts, loading } = useSelector((state) => state.postReducer);
-  console.log("posfrwe",posts);
+  // console.log("posfrwe",posts);
   const params = useParams()
   useEffect(() => {
     dispatch(getTimelinePosts(user._id));
   }, [user._id]);
   
-console.log("paraaa,",params.id);
+// console.log("paraaa,",params.id);
 if(!posts) return "no posts"
 if (params.id) 
     posts = posts.filter((post) => post.userId === params.id);
@@ -26,7 +26,7 @@ if (params.id)
       
         {loading ? "fetching posts..." :
         posts.map((post, id) => {
-            console.log("post",post);
+            // console.log("post",post);
             return <Post data={post} id={id} />
           })
         }

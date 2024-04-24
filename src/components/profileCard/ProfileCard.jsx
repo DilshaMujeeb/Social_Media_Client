@@ -12,11 +12,12 @@ const ProfileCard = ({ location }) => {
   
   
   const { user } = useSelector((state) => state.authReducer.authData)
+  console.log(user.coverPicture,"user");
   const posts = useSelector((state) => state.postReducer.posts)
-  console.log(posts, "postss");
+  // console.log(posts, "postss");
   const serverPublic = config.publicFolder;
   // const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER
-  console.log("REACT_APP_PUBLIC_FOLDER:", serverPublic);
+  // console.log("REACT_APP_PUBLIC_FOLDER:", serverPublic);
 
   
   const [showFollowing, setShowFollowing] = useState(false);
@@ -29,7 +30,7 @@ const ProfileCard = ({ location }) => {
         const followingResponse = await getFollowingList(user._id);
         
         const following = followingResponse.data.following;
-        console.log(following, "following");
+        // console.log(following, "following");
         setListFollowing(following);
         // console.log(listFollowing,"list following");
 
@@ -43,7 +44,7 @@ const ProfileCard = ({ location }) => {
     fetchUsersId()
   }, [])
   useEffect(() => {
-    console.log("List following updated:", listFollowing);
+    // console.log("List following updated:", listFollowing);
   }, [listFollowing]);
 
 
@@ -55,7 +56,7 @@ const ProfileCard = ({ location }) => {
     const followingResponse = await getFollowingList(user._id);
         
         const following = followingResponse.data.following;
-        console.log(following, "following");
+        // console.log(following, "following");
         setListFollowing(following);
     } catch (error) {
       console.log(error);
@@ -81,7 +82,7 @@ const ProfileCard = ({ location }) => {
           <img
             src={
               user.coverPicture
-                ? serverPublic + user.coverPicture
+                ? user.coverPicture
                 : serverPublic + "defaultCover.jpg"
             }
             alt=""
@@ -89,7 +90,7 @@ const ProfileCard = ({ location }) => {
           <img
             src={
               user.profilePicture
-                ? serverPublic + user.profilePicture
+                ? user.profilePicture
                 : serverPublic + "defaultProfile.png"
             }
             alt=""

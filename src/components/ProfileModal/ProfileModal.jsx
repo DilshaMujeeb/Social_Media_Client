@@ -5,59 +5,69 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../Actions/uploadAction";
 import { updateUser } from "../../Actions/userAction";
-function ProfileModal({ modalOpened, setModalOpened,data}) {
+function ProfileModal({ modalOpened, setModalOpened, data }) {
   const handleClose = () => {
     setModalOpened(false);
   };
   const { password, ...other } = data;
   const [formData, setFormData] = useState(other);
   const [profileImage, setProfileImage] = useState(null);
-  const [coverImage, setCoverImage] = useState(null)
-  const dispatch = useDispatch()
-  const param = useParams()
-  const {user}=useSelector((state)=>state.authReducer.authData)
+  const [coverImage, setCoverImage] = useState(null);
+  const dispatch = useDispatch();
+  const param = useParams();
+  const { user } = useSelector((state) => state.authReducer.authData);
+  const cloudName = "dnzxhje5m";
+  const preset_key = "reelking";
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-    console.log("formdata",formData);
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log("formdata", formData);
+  };
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-      event.target.name === 'profileImage' ? setProfileImage(img) : setCoverImage(img);
+      event.target.name === "profileImage"
+        ? setProfileImage(img)
+        : setCoverImage(img);
     }
-  }
-  const handleSubmit = (e) => {
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let UserData = formData;
     if (profileImage) {
-      const data = new FormData();
+      const profileData = new FormData();
       const fileName = Date.now() + profileImage.name;
-      
-      data.append("name", fileName);
-      data.append("file", profileImage);
-      UserData.profilePicture = fileName;
+
+      profileData.append("name", fileName);
+      profileData.append("file", profileImage);
+      profileData.append("upload_preset", preset_key);
+
       try {
-        dispatch(uploadImage(data));
+        const profileResponse = await dispatch(
+          uploadImage(profileData, cloudName)
+        );
+        // console.log(profileResponse.url, "userdata.............");
+        UserData.profilePicture = profileResponse.url;
       } catch (error) {
         console.log(error);
       }
     }
     if (coverImage) {
-      const data = new FormData();
+      const coverData = new FormData();
       const fileName = Date.now() + coverImage.name;
-      data.append("name", fileName);
-      data.append("file", coverImage);
-      UserData.coverPicture = fileName;
+      coverData.append("name", fileName);
+      coverData.append("file", coverImage);
+      coverData.append("upload_preset", preset_key);
+
       try {
-        dispatch(uploadImage(data));
+        const coverResponse = await dispatch(uploadImage(coverData, cloudName));
+        UserData.coverPicture = coverResponse.url;
       } catch (err) {
         console.log(err);
       }
     }
     dispatch(updateUser(param.id, UserData));
     setModalOpened(false);
-
-  }
+  };
   return (
     <>
       {modalOpened && (
@@ -139,7 +149,11 @@ function ProfileModal({ modalOpened, setModalOpened,data}) {
                 <input type="file" name="coverImage" onChange={onImageChange} />
               </div>
               <div className="button-group">
-                <button className="Button infoButton" type="submit" onClick={handleSubmit}>
+                <button
+                  className="Button infoButton"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
                   Update
                 </button>
               </div>
